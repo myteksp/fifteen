@@ -20,6 +20,10 @@ public final class GameService {
 		this.repo = repo;
 		this.logic = logic;
 	}
+	
+	public final int[]  getAllowedGameSizes(){
+		return logic.getAllowedSizesRange();
+	}
 
 	public final GameEntity getGame(final String gameId){
 		GameEntity result = repo.findById(gameId);
@@ -52,7 +56,10 @@ public final class GameService {
 		GameEntity result = getGame(gameId);
 		if (result.state == GameState.IN_PROGRESS){
 			if (logic.validateMove(result.position, position)){
-				result.state = logic.calculateGameState(result);
+				final GameState state = result.state = logic.calculateGameState(result.position);
+				if (state == GameState.ENDED){
+					result.endDate = System.currentTimeMillis();
+				}
 				result = repo.save(result);
 				return result;
 			}else{

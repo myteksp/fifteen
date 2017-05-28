@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
-	public final void deleteUser(final String username){
+	public void deleteUser(final String username){
 		final UserEntity user = repo.findByUserName(username);
 		if (user == null)
 			return;
