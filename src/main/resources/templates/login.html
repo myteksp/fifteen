@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="css/dependencies.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<script type="text/javascript" src="scripts/dependecies.js"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	"use strict";
+	var autologin = /*[[${autologin}]]*/false;
+	var login_username = /*[[${user.username}]]*/'ERROR';
+	var login_password = /*[[${user.password}]]*/'ERROR';
+	if (autologin){
+		$(function() {
+			$('body').addClass('js');
+			$("#username").val(login_username);
+			$("#password").val(login_password);
+			$("#login-form").submit();
+		});
+	}else{
+		$(function() {
+			$('body').addClass('js');
+			$("#signup-button").button().click(function(){
+				document.location.href="/signup";
+			});
+		});
+	}
+	/*]]>*/
+</script>
+<body>
+	<div class="login-wrapper">
+		<form id="login-form" class="login-form ui-widget-content ui-corner-all" action='/login' method='post'>
+			<div>
+				<label> User name <input id="username" type='text' name='username' /></label>
+			</div>
+			<div>
+				<label> Password <input id="password" type='password' name='password' /></label>
+			</div>
+			<div>
+				<label> <input type='submit' value='Login' /></label>
+			</div>
+		</form>
+		<div id="signup-button">Signup</div>
+	</div>
+</body>
+</html>
