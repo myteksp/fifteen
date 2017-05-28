@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gf.fifteen.entities.SignupUserRequest;
-import com.gf.fifteen.entities.UserEntity;
 import com.gf.fifteen.entities.general.GeneralBooleanResponse;
 import com.gf.fifteen.entities.general.GeneralStringRequest;
+import com.gf.fifteen.entities.user.SignupUserRequest;
+import com.gf.fifteen.entities.user.UserEntity;
 import com.gf.fifteen.services.UserService;
 
 @RestController

@@ -12,21 +12,20 @@ import com.gf.fifteen.services.GameService;
 import com.gf.fifteen.services.UserService;
 
 @Controller
-public final class IndexController {
-	private static final String VIEW = "index";
+public final class LobbyController {
+	private static final String VIEW = "lobby";
 	
 	private final UserService users;
 	private final GameService games;
 	
 	@Autowired
-	public IndexController(final UserService users, final GameService games){
+	public LobbyController(final UserService users, final GameService games){
 		this.users = users;
 		this.games = games;
 	}
 	
-
-	@RequestMapping(value="/", method = RequestMethod.GET)
-	public final String index(final Model model) {
+	@RequestMapping(value="/lobby", method = RequestMethod.GET)
+	public final String lobby(final Model model) {
 		final UserEntity user = (UserEntity) users
 				.loadUserByUsername(SecurityContextHolder.getContext()
 				.getAuthentication().getName());

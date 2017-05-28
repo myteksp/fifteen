@@ -1,4 +1,4 @@
-package com.gf.fifteen.entities;
+package com.gf.fifteen.entities.user;
 
 public final class SignupUserRequest {
 	public String username;

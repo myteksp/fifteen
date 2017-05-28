@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.gf.fifteen.entities.UserEntity;
+import com.gf.fifteen.entities.user.UserEntity;
 import com.gf.fifteen.services.UserService;
 
 import static org.junit.Assert.*;

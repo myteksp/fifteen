@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gf.fifteen.entities.UserEntity;
+import com.gf.fifteen.entities.user.UserEntity;
 import com.gf.fifteen.exceptions.UserAlreadyExistsException;
 import com.gf.fifteen.repos.UserRepo;
 import com.gf.util.string.MacroCompiler;
