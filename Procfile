@@ -1,1 +1,1 @@
-web java -Dserver.port=$PORT $JAVA_OPTS mvn clean spring-boot:run
+web java -Dserver.port=$PORT $JAVA_OPTS -jar target/fifteen-0.0.1-SNAPSHOT.jar
