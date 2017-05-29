@@ -1,4 +1,4 @@
-package com.gf.fifteen.logic;
+package com.gf.fifteen.managers.utils;
 
 import java.util.Arrays;
 
@@ -10,15 +10,16 @@ import com.gf.fifteen.entities.dao.game.GameEntity;
 import com.gf.fifteen.entities.dao.game.GameState;
 import com.gf.fifteen.exceptions.InvalidGameSizeException;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
+import com.gf.fifteen.managers.GameManager;
 import com.gf.util.string.MacroCompiler;
 
 @Component
-public final class GameLogicUtil {
+public final class GameManagerUtil {
 	private final int maxSize;
 	private final int minSize;
 	
 	@Autowired
-	public GameLogicUtil(
+	public GameManagerUtil(
 			@Value("${game.config.maxSize}")final int maxSize, 
 			@Value("${game.config.minSize}")final int minSize){
 		this.maxSize = maxSize;
@@ -44,7 +45,7 @@ public final class GameLogicUtil {
 
 	public final void resetGame(final GameEntity game){
 		game.state = GameState.WAITING_FOR_START;
-		game.position = GameCombinationsUtil.generateRandomSolvablePosition(game.size);
+		game.position = GameManager.generateRandomSolvablePosition(game.size);
 		game.startDate = System.currentTimeMillis();
 		game.endDate = 0;
 		
@@ -53,8 +54,8 @@ public final class GameLogicUtil {
 	
 	
 	public final boolean validateMove(final int[] prevPosition, final int[] newPosition){
-		final int[] validIndexes = GameCombinationsUtil.validZeroIndexes(prevPosition);
-		final int newZeroIndex = GameCombinationsUtil.zeroIndex(newPosition);
+		final int[] validIndexes = GameManager.validZeroIndexes(prevPosition);
+		final int newZeroIndex = GameManager.zeroIndex(newPosition);
 		for(final int index : validIndexes){
 			if (index < 0)
 				return false;

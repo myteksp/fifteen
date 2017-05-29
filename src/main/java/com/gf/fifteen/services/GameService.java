@@ -7,16 +7,16 @@ import com.gf.fifteen.entities.dao.game.GameEntity;
 import com.gf.fifteen.entities.dao.game.GameState;
 import com.gf.fifteen.exceptions.InvalidGameStateException;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
-import com.gf.fifteen.logic.GameLogicUtil;
+import com.gf.fifteen.managers.utils.GameManagerUtil;
 import com.gf.fifteen.repos.GameRepo;
 
 @Service
 public final class GameService {
 	private final GameRepo repo;
-	private final GameLogicUtil logic;
+	private final GameManagerUtil logic;
 
 	@Autowired
-	public GameService(final GameRepo repo, final GameLogicUtil logic){
+	public GameService(final GameRepo repo, final GameManagerUtil logic){
 		this.repo = repo;
 		this.logic = logic;
 	}

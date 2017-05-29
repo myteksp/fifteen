@@ -1,11 +1,11 @@
-package com.gf.fifteen.logic;
+package com.gf.fifteen.managers;
 
 import java.util.Arrays;
 
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
 import com.gf.util.string.MacroCompiler;
 
-public final class GameCombinationsUtil {
+public final class GameManager {
 
 	private static final boolean isSolvable(final int[] position){
 		//TODO implement after UI
