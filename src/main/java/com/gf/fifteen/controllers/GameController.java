@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gf.fifteen.converters.GameConverter;
+import com.gf.fifteen.entities.dto.game.CanMoveResponseDTO;
 import com.gf.fifteen.entities.dto.game.GameDTO;
 import com.gf.fifteen.entities.general.GeneralOptionResponse;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
@@ -29,6 +30,13 @@ public final class GameController {
 	@GetMapping(path="/game/get", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public final GameDTO getGame(@RequestParam(name="id", required=true)final String gameId){
 		return converter.convert(service.getGame(gameId));
+	}
+	
+	@GetMapping(path="/game/canMove", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public final CanMoveResponseDTO canMove(
+			@RequestParam(name="id", required=true)final String gameId,
+			@RequestParam(name="num", required=true)final int num){
+		return new CanMoveResponseDTO(service.getNextMove(gameId, num));
 	}
 
 	@GetMapping(path="/game/reset", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)

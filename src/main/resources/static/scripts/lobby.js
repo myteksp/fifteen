@@ -13,4 +13,7 @@ $(function() {
 		    dataType: 'json'
 		});
 	});
+	$("#logout-button").button().click(function(event){
+		document.location.href="/logout";
+	});
 });

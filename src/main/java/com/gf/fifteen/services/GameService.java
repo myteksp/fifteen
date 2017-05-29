@@ -13,16 +13,16 @@ import com.gf.fifteen.repos.GameRepo;
 @Service
 public final class GameService {
 	private final GameRepo repo;
-	private final GameManager logic;
+	private final GameManager manager;
 
 	@Autowired
-	public GameService(final GameRepo repo, final GameManager logic){
+	public GameService(final GameRepo repo, final GameManager manager){
 		this.repo = repo;
-		this.logic = logic;
+		this.manager = manager;
 	}
 
 	public final int[]  getAllowedGameSizes(){
-		return logic.getAllowedSizesRange();
+		return manager.getAllowedSizesRange();
 	}
 	
 	private final GameEntity getOrCreateGame(final String gameId){
@@ -33,17 +33,19 @@ public final class GameService {
 		}
 		return result;
 	}
+	
+	public final int[] getNextMove(final String gameId, final int number){
+		final GameEntity result = getOrCreateGame(gameId);
+		return manager.getNextMove(result.position, number);
+	}
 
 	public final GameEntity getGame(final String gameId){
-		GameEntity result = getOrCreateGame(gameId);
-		logic.resetGame(result);
-		result = repo.save(result);
-		return result;
+		return repo.findById(gameId);
 	}
 
 	public final GameEntity resetGame(final String gameId){
 		GameEntity result = getOrCreateGame(gameId);
-		logic.resetGame(result);
+		manager.resetGame(result);
 		result = repo.save(result);
 		return result;
 	}
@@ -51,7 +53,7 @@ public final class GameService {
 	public final GameEntity startGame(final String gameId, final int size){
 		GameEntity result = getOrCreateGame(gameId);
 		result.size = size;
-		logic.resetGame(result);
+		manager.resetGame(result);
 		result = repo.save(result);
 		return result;
 	}
@@ -59,8 +61,9 @@ public final class GameService {
 	public final GameEntity updatePosition(final String gameId, final int[] position){
 		GameEntity result = getGame(gameId);
 		if (result.state == GameState.IN_PROGRESS){
-			if (logic.validateMove(result.position, position)){
-				final GameState state = result.state = logic.calculateGameState(result.position);
+			if (manager.validateMove(result.position, position)){
+				result.position = position;
+				final GameState state = result.state = manager.calculateGameState(result.position);
 				if (state == GameState.ENDED){
 					result.endDate = System.currentTimeMillis();
 				}

@@ -11,18 +11,17 @@
 	/*<![CDATA[*/
 	"use strict";
 	var game_id = /*[[${game_id}]]*/'ERROR';
-	var current_game_state = /*[[${game.state}]]*/'ERROR';
-	var game_size = /*[[${game.size}]]*/'ERROR';
-	current_game_state = current_game_state.$name;
+	var current_game_state = /*[[${game==null?"":game.state.toString()}]]*/'ERROR';
+	var game_size = /*[[${game==null?1:game.size}]]*/'ERROR';
 	/*]]>*/
 </script>
 <script type="text/javascript" src="scripts/index.js"></script>
 </head>
 <body>
 	<div class="index-container">
-		<div class="game-container">
-			<ul id="game-board" class="game" th:style="'width:' + ${game.size * 101} + 'px; height:' + ${game.size * 101} + 'px;'">
-				<li class="game-cell" th:each="number : ${game.position}">
+		<div th:if="${game != null}" class="game-container">
+			<ul id="game-board" class="game" th:style="'width:' + ${game == null?10:game.size * 101} + 'px; height:' + ${game == null?10:game.size * 101} + 'px;'">
+				<li class="game-cell" th:each="number : ${game == null?empty:game.position}">
 					<div th:id="${'num_' + number}" class="game-cell-number" th:utext="${number > 0?number:''}"></div>
 				</li>
 			</ul>

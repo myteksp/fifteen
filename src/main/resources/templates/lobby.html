@@ -11,9 +11,8 @@
 	/*<![CDATA[*/
 	"use strict";
 	var game_id = /*[[${game_id}]]*/'ERROR';
-	var current_game_state = /*[[${game.state}]]*/'ERROR';
-	var game_size = /*[[${game.size}]]*/'ERROR';
-	current_game_state = current_game_state.$name;
+	var current_game_state = /*[[${game==null?"":game.state.toString()}]]*/'ERROR';
+	var game_size = /*[[${game==null?1:game.size}]]*/'ERROR';
 	/*]]>*/
 </script>
 <script type="text/javascript" src="scripts/lobby.js"></script>
@@ -33,6 +32,7 @@
 			</div>
 			<div class="lobby-start-container">
 				<button id="start-game-button">Start!</button>
+				<button id="logout-button">Logout</button>
 			</div>
 		</div>
 	</div>

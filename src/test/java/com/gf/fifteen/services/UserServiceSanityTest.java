@@ -1,4 +1,4 @@
-package com.gf.fifteen;
+package com.gf.fifteen.services;
 
 import static org.junit.Assert.*;
 

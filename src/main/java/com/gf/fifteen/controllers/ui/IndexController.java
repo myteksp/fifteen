@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.gf.fifteen.entities.dao.game.GameEntity;
 import com.gf.fifteen.entities.dao.user.UserEntity;
 import com.gf.fifteen.services.GameService;
 import com.gf.fifteen.services.UserService;
@@ -30,9 +31,11 @@ public final class IndexController {
 		final UserEntity user = (UserEntity) users
 				.loadUserByUsername(SecurityContextHolder.getContext()
 				.getAuthentication().getName());
-		model.addAttribute("game", games.getGame(user.gameId));
-		model.addAttribute("game_id", user.gameId);
+		final GameEntity game = games.getGame(user.gameId);
+		model.addAttribute("game", game);
+		model.addAttribute("game_id", game == null?"":game.id);
 		model.addAttribute("allowedSizes", games.getAllowedGameSizes());
+		model.addAttribute("empty", new int[]{});
 		return VIEW;
 	}
 }
