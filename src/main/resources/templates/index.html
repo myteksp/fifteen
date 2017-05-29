@@ -10,13 +10,26 @@
 <script th:inline="javascript">
 	/*<![CDATA[*/
 	"use strict";
+	var game_id = /*[[${game_id}]]*/'ERROR';
 	var current_game_state = /*[[${game.state}]]*/'ERROR';
 	var game_size = /*[[${game.size}]]*/'ERROR';
+	current_game_state = current_game_state.$name;
 	/*]]>*/
 </script>
 <script type="text/javascript" src="scripts/index.js"></script>
 </head>
 <body>
-	
+	<div class="index-container">
+		<div class="game-container">
+			<ul id="game-board" class="game" th:style="'width:' + ${game.size * 101} + 'px; height:' + ${game.size * 101} + 'px;'">
+				<li class="game-cell" th:each="number : ${game.position}">
+					<div th:id="${'num_' + number}" class="game-cell-number" th:utext="${number > 0?number:''}"></div>
+				</li>
+			</ul>
+		</div>
+		<div class="menu-container">
+			<button id="lobby-button">To Lobby</button>
+		</div>
+	</div>
 </body>
 </html>

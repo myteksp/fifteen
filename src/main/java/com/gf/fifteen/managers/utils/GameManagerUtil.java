@@ -27,7 +27,12 @@ public final class GameManagerUtil {
 	}
 	
 	public final int[] getAllowedSizesRange(){
-		return new int[]{minSize, maxSize};
+		final int len = maxSize - minSize;
+		final int[] result = new int[len];
+		for (int i = 0; i < len; i++) {
+			result[i] = minSize + i;
+		}
+		return result;
 	}
 
 	public final void startGame(final GameEntity game, final int size){
@@ -45,10 +50,14 @@ public final class GameManagerUtil {
 
 	public final void resetGame(final GameEntity game){
 		game.state = GameState.WAITING_FOR_START;
+		if (game.size < minSize){
+			game.size = minSize;
+		}else if (game.size > maxSize){
+			game.size = maxSize;
+		}
 		game.position = GameManager.generateRandomSolvablePosition(game.size);
 		game.startDate = System.currentTimeMillis();
 		game.endDate = 0;
-		
 	}
 
 	

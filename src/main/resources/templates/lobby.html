@@ -16,6 +16,17 @@
 <script type="text/javascript" src="scripts/lobby.js"></script>
 </head>
 <body>
-	
+	<div class="lobby-container">
+		<div class="lobby">
+			<div class="lobby-sizes-container">
+				<ul>
+					<li th:id="@{size_} + ${size}" th:each="size : ${sizes}" th:utext="${size} + @{X} + ${size}"></li>
+				</ul>
+			</div>
+			<div class="lobby-start-container">
+				<button id="start-game-button">Start!</button>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

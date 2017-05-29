@@ -30,6 +30,7 @@ public final class LobbyController {
 				.loadUserByUsername(SecurityContextHolder.getContext()
 				.getAuthentication().getName());
 		model.addAttribute("game", games.getGame(user.gameId));
+		model.addAttribute("sizes", games.getAllowedGameSizes());
 		return VIEW;
 	}
 }

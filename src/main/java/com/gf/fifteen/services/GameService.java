@@ -41,7 +41,11 @@ public final class GameService {
 			result = new GameEntity();
 		}
 		logic.resetGame(result);
+		final GameState state = result.state = logic.calculateGameState(result.position);
 		result = repo.save(result);
+		if (state == GameState.ENDED){
+			return resetGame(gameId);
+		}
 		return result;
 	}
 	
@@ -54,7 +58,7 @@ public final class GameService {
 	
 	public final GameEntity updatePosition(final String gameId, final int[] position){
 		GameEntity result = getGame(gameId);
-		if (result.state == GameState.IN_PROGRESS){
+		//if (result.state == GameState.IN_PROGRESS){
 			if (logic.validateMove(result.position, position)){
 				final GameState state = result.state = logic.calculateGameState(result.position);
 				if (state == GameState.ENDED){
@@ -63,10 +67,10 @@ public final class GameService {
 				result = repo.save(result);
 				return result;
 			}else{
-				throw new InvalidMoveAtemtException("Invalid move atemt. Incedent will be reported.");
+				throw new InvalidMoveAtemtException("Invalid move atemt.");
 			}
-		}else{
-			throw new InvalidGameStateException("Invalid game state. Incedent will be reported.");
-		}
+//		}else{
+//			throw new InvalidGameStateException("Invalid game state. Incedent will be reported.");
+//		}
 	}
 }

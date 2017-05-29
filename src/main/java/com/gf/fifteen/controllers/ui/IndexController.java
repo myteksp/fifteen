@@ -31,6 +31,7 @@ public final class IndexController {
 				.loadUserByUsername(SecurityContextHolder.getContext()
 				.getAuthentication().getName());
 		model.addAttribute("game", games.getGame(user.gameId));
+		model.addAttribute("game_id", user.gameId);
 		model.addAttribute("allowedSizes", games.getAllowedGameSizes());
 		return VIEW;
 	}

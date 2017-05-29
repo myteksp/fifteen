@@ -10,37 +10,43 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gf.fifteen.converters.GameConverter;
 import com.gf.fifteen.entities.dto.game.GameDTO;
+import com.gf.fifteen.entities.general.GeneralOptionResponse;
+import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
 import com.gf.fifteen.services.GameService;
 
 @RestController
 public final class GameController {
 	private final GameService service;
 	private final GameConverter converter;
-	
+
 	@Autowired
 	public GameController(final GameService service, final GameConverter converter){
 		this.service = service;
 		this.converter = converter;
 	}
-	
-	
+
+
 	@GetMapping(path="/game/get", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public final GameDTO getGame(@RequestParam(name="id", required=true)final String gameId){
 		return converter.convert(service.getGame(gameId));
 	}
-	
+
 	@GetMapping(path="/game/reset", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public final GameDTO resetGame(@RequestParam(name="id", required=true)final String gameId){
 		return converter.convert(service.resetGame(gameId));
 	}
-	
+
 	@PostMapping(path="/game/position", consumes=MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public final GameDTO updateGame(
+	public final GeneralOptionResponse<GameDTO> updateGame(
 			@RequestParam(name="id", required=true)final String gameId, 
 			@RequestBody(required=true)final int[] position){
-		return converter.convert(service.updatePosition(gameId, position));
+		try{
+			return new GeneralOptionResponse<GameDTO>(converter.convert(service.updatePosition(gameId, position)));
+		}catch(final InvalidMoveAtemtException ex){
+			return new GeneralOptionResponse<GameDTO>();
+		}
 	}
-	
+
 	@GetMapping(path="/game/start", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public final GameDTO startGame(
 			@RequestParam(name="id", required=true)final String gameId, 
