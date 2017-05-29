@@ -1,6 +1,10 @@
 package com.gf.fifteen.managers;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,57 +21,73 @@ public final class GameManagerSanityTest {
 	@Autowired
 	private GameManager logic;
 
-	@Test
-	public void gameStateLogicSanityTest() {
-		//Ended
-		int[] position = new int[]{
+	private List<int[]> endedGames;
+	private List<int[]> inProgressGames;
+	private List<int[]> invalidGames;
+
+	@Before
+	public void setup(){
+		endedGames = new ArrayList<int[]>();
+		inProgressGames = new ArrayList<int[]>();
+		invalidGames = new ArrayList<int[]>();
+
+		endedGames.add(new int[]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 10, 11, 12,
 				13, 14, 15, 0
-		};
-		assertEquals("Expected 'GameState.ENDED'", GameState.ENDED, logic.calculateGameState(position));
-		//Ended
-		position = new int[]{
+		});
+		endedGames.add(new int[]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 10, 11, 12,
 				13, 14, 0, 15
-		};
-		assertEquals("Expected 'GameState.ENDED'", GameState.ENDED, logic.calculateGameState(position));
-		//Ended
-		position = new int[]{
+		});
+		endedGames.add(new int[]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 10, 11, 12,
 				0, 13, 14, 15
-		};
-		assertEquals("Expected 'GameState.ENDED'", GameState.ENDED, logic.calculateGameState(position));
-		//In-progress
-		position = new int[]{
+		});
+
+		inProgressGames.add(new int[]{
 				2, 1, 3, 4,
 				5, 6, 7, 8,
 				9, 10, 11, 12,
 				0, 13, 14, 15
-		};
-		assertEquals("Expected 'GameState.IN_PROGRESS'", GameState.IN_PROGRESS, logic.calculateGameState(position));
+		});
 
-		//invalid
-		position = new int[]{
+		invalidGames.add(new int[]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 10, 11, 12,
 				13, 14, 15, 16
-		};
-		try{
-			logic.calculateGameState(position);
-			fail("Expected to fail without zero.");
-		}catch(final InvalidMoveAtemtException ex){}
+		});
 	}
 
+	@Test
+	public void testEndedGamesDetection(){
+		for(final int[] position : endedGames){
+			assertEquals("Expected 'GameState.ENDED'", GameState.ENDED, logic.calculateGameState(position));
+		}
+	}
 
 	@Test
-	public void gameMovesLogicSanityTest() {
+	public void testInProgressGameDetection(){
+		for(final int[] position : inProgressGames){
+			assertEquals("Expected 'GameState.IN_PROGRESS'", GameState.IN_PROGRESS, logic.calculateGameState(position));
+		}
+	}
+
+	@Test(expected=InvalidMoveAtemtException.class)
+	public void testinvalidGameConfigurationDetection(){
+		for(final int[] position : invalidGames){
+			logic.calculateGameState(position);
+		}
+	}
+
+	@Test
+	public void testMoveValidationValid(){
 		//valid
 		int[] position = new int[]{
 				1, 2, 3, 4,
@@ -94,15 +114,19 @@ public final class GameManagerSanityTest {
 				1, 8, 0
 		};
 		assertTrue("Validation failed for valid move", logic.validateMove(position, move));
-		
+	}
+
+
+	@Test
+	public void testMoveValidationInvalid(){
 		//invalid
-		position = new int[]{
+		int[] position = new int[]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 10, 11, 12,
 				13, 14, 15, 0
 		};
-		move = new int[]{
+		int[] move = new int[]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 10, 0, 12,

@@ -1,6 +1,6 @@
 # 15 puzzle demo project
 
-This 15 puzzle implementation is a demo of online game, built in such a way that every pieace of game logic is performed on the back-end side (usualy, this kind of approach used for froad prevention).
+This 15 puzzle implementation is a demo of online game, built in such a way that every piece of game logic is performed on the back-end side (usualy, this kind of approach used for froad prevention).
 Stack:
 
   - Back-end: Spring boot, Spring data, Spring security, Thymeleaf
