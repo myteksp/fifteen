@@ -81,7 +81,7 @@ public final class GameManagerUtils {
 	
 	//=================Helpers and utility methods=====================
 	//TODO: consider splitting into separated utilities/finding standard libraries
-	private static final boolean isSolvable(final int[] position){
+	public static final boolean isSolvable(final int[] position){
 		int inversions = 0;
 		
         for (int i = 0; i < position.length - 1; i++) 
