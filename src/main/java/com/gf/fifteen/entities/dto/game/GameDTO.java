@@ -1,6 +1,8 @@
-package com.gf.fifteen.entities.game;
+package com.gf.fifteen.entities.dto.game;
 
 import java.util.Arrays;
+
+import com.gf.fifteen.entities.dao.game.GameState;
 
 public final class GameDTO {
 	public String id;

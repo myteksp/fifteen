@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.gf.fifteen.entities.game.GameState;
+import com.gf.fifteen.entities.dao.game.GameState;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
 import com.gf.fifteen.logic.GameLogicUtil;
 

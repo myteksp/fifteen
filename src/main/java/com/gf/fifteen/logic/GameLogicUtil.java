@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.gf.fifteen.entities.game.GameEntity;
-import com.gf.fifteen.entities.game.GameState;
+import com.gf.fifteen.entities.dao.game.GameEntity;
+import com.gf.fifteen.entities.dao.game.GameState;
 import com.gf.fifteen.exceptions.InvalidGameSizeException;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
 import com.gf.util.string.MacroCompiler;

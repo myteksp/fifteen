@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.gf.fifteen.entities.user.UserEntity;
+import com.gf.fifteen.entities.dao.user.UserEntity;
 import com.gf.fifteen.services.GameService;
 import com.gf.fifteen.services.UserService;
 

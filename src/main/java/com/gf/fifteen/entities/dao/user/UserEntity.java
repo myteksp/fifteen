@@ -1,4 +1,4 @@
-package com.gf.fifteen.entities.user;
+package com.gf.fifteen.entities.dao.user;
 
 import java.util.Arrays;
 import java.util.Collection;

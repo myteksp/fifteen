@@ -2,8 +2,8 @@ package com.gf.fifteen.converters;
 
 import org.springframework.stereotype.Component;
 
-import com.gf.fifteen.entities.game.GameDTO;
-import com.gf.fifteen.entities.game.GameEntity;
+import com.gf.fifteen.entities.dao.game.GameEntity;
+import com.gf.fifteen.entities.dto.game.GameDTO;
 
 @Component
 public final class GameConverter {

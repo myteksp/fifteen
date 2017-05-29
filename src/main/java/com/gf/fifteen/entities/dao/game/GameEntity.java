@@ -1,4 +1,4 @@
-package com.gf.fifteen.entities.game;
+package com.gf.fifteen.entities.dao.game;
 
 import java.util.Arrays;
 

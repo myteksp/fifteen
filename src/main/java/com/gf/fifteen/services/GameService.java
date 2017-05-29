@@ -3,8 +3,8 @@ package com.gf.fifteen.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gf.fifteen.entities.game.GameEntity;
-import com.gf.fifteen.entities.game.GameState;
+import com.gf.fifteen.entities.dao.game.GameEntity;
+import com.gf.fifteen.entities.dao.game.GameState;
 import com.gf.fifteen.exceptions.InvalidGameStateException;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
 import com.gf.fifteen.logic.GameLogicUtil;

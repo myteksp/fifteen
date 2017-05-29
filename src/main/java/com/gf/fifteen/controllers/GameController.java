@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gf.fifteen.converters.GameConverter;
-import com.gf.fifteen.entities.game.GameDTO;
+import com.gf.fifteen.entities.dto.game.GameDTO;
 import com.gf.fifteen.services.GameService;
 
 @RestController

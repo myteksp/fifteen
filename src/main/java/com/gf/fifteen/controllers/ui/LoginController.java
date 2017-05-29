@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gf.fifteen.entities.user.SignupUserRequest;
+import com.gf.fifteen.entities.dto.user.SignupUserRequest;
 import com.gf.fifteen.services.UserService;
 import com.gf.util.string.JSON;
 
