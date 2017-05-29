@@ -10,7 +10,10 @@
 <script th:inline="javascript">
 	/*<![CDATA[*/
 	"use strict";
+	var game_id = /*[[${game_id}]]*/'ERROR';
 	var current_game_state = /*[[${game.state}]]*/'ERROR';
+	var game_size = /*[[${game.size}]]*/'ERROR';
+	current_game_state = current_game_state.$name;
 	/*]]>*/
 </script>
 <script type="text/javascript" src="scripts/lobby.js"></script>
@@ -19,9 +22,14 @@
 	<div class="lobby-container">
 		<div class="lobby">
 			<div class="lobby-sizes-container">
-				<ul>
-					<li th:id="@{size_} + ${size}" th:each="size : ${sizes}" th:utext="${size} + @{X} + ${size}"></li>
-				</ul>
+				<form action="#">
+  					<fieldset>
+    					<label for="sizes">Select game size:</label>
+    					<select name="sizes" id="sizes">
+    						<option th:id="@{size_} + ${size}" th:each="size : ${sizes}" th:utext="${size} + @{X} + ${size}"></option>
+    					</select>
+ 					</fieldset>
+				</form>
 			</div>
 			<div class="lobby-start-container">
 				<button id="start-game-button">Start!</button>

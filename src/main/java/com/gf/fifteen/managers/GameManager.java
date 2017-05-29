@@ -2,78 +2,107 @@ package com.gf.fifteen.managers;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.gf.fifteen.entities.dao.game.GameEntity;
+import com.gf.fifteen.entities.dao.game.GameState;
+import com.gf.fifteen.exceptions.InvalidGameSizeException;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
+import com.gf.fifteen.managers.utils.GameManagerUtils;
 import com.gf.util.string.MacroCompiler;
 
+@Component
 public final class GameManager {
-
-	private static final boolean isSolvable(final int[] position){
-		//TODO implement after UI
-		return true;
+	private final int maxSize;
+	private final int minSize;
+	
+	@Autowired
+	public GameManager(
+			@Value("${game.config.maxSize}")final int maxSize, 
+			@Value("${game.config.minSize}")final int minSize){
+		this.maxSize = maxSize;
+		this.minSize = minSize;
 	}
-
-	public static final int[] generateRandomSolvablePosition(final int size){
-		//TODO: find analytic way for generation
-		final int len = size * size;
+	
+	public final int[] getAllowedSizesRange(){
+		final int len = maxSize - minSize;
 		final int[] result = new int[len];
-		final int lastIndex = len - 1;
-		for (int i = 0; i < lastIndex; i++) 
-			result[i] = i + 1;
-		
-		result[lastIndex] = 0;
-		
-		do{
-			for (int i = 0; i < lastIndex; i++) {
-				final int newindex = (int) Math.round(Math.random() * lastIndex);
-				final int tmp = result[newindex];
-				result[newindex] = result[i];
-				result[i] = tmp;
-			}
-		}while(!isSolvable(result));
-		return result;
-	}
-
-	public static final int[] validZeroIndexes(final int[] position){
-		final int size = (int) Math.sqrt(position.length);
-		final int zeroIndex = zeroIndex(position);
-
-		final int[] result = new int[]{-1, -1, -1, -1};
-		int candidate = zeroIndex - size;
-		if (candidate >= 0){
-			result[0] = candidate;
-		}
-		candidate = zeroIndex + size;
-		if (candidate < position.length){
-			result[1] = candidate;
-		}
-		candidate = zeroIndex + 1;
-		if (zeroRow(zeroIndex, size) == zeroRow(candidate, size)){
-			result[2] = candidate;
-		}
-		candidate = zeroIndex - 1;
-		if (zeroRow(zeroIndex, size) == zeroRow(candidate, size)){
-			result[3] = candidate;
+		for (int i = 0; i < len; i++) {
+			result[i] = minSize + i;
 		}
 		return result;
 	}
 
-	public static final int zeroRow(final int index, final int size){
-		return (index - zeroCol(index, size))/size;
+	public final void startGame(final GameEntity game, final int size){
+		if (size < minSize || size > maxSize)
+			throw new InvalidGameSizeException(
+					MacroCompiler.compile("Invalud game size ${0}. Expected between ${1} and ${2}", 
+							Arrays.asList(
+									Integer.toString(size), 
+									Integer.toString(minSize), 
+									Integer.toString(maxSize))));
+		
+		game.size = size;
+		resetGame(game);
+		final GameState state = game.state = calculateGameState(game.position);
+		//TODO: come up with something less ugly.
+		if (state == GameState.ENDED){
+			startGame(game, size);
+		}
 	}
 
-	public static final int zeroCol(final int index, final int size){
-		return index%size;
+	public final void resetGame(final GameEntity game){
+		game.state = GameState.WAITING_FOR_START;
+		if (game.size < minSize){
+			game.size = minSize;
+		}else if (game.size > maxSize){
+			game.size = maxSize;
+		}
+		game.position = GameManagerUtils.generateRandomSolvablePosition(game.size);
+		game.startDate = System.currentTimeMillis();
+		game.endDate = 0;
+		final GameState state = game.state = calculateGameState(game.position);
+		//TODO: come up with something less ugly.
+		if (state == GameState.ENDED){
+			resetGame(game);
+		}
 	}
 
-	public static final int zeroIndex(final int[] position){
-		for (int i = 0; i < position.length; i++) {
-			switch(position[i]){
-			case 0:
-				return i;
+	
+	
+	public final boolean validateMove(final int[] prevPosition, final int[] newPosition){
+		final int[] validIndexes = GameManagerUtils.validZeroIndexes(prevPosition);
+		final int newZeroIndex = GameManagerUtils.zeroIndex(newPosition);
+		for(final int index : validIndexes){
+			if (index < 0)
+				return false;
+			
+			if (index == newZeroIndex)
+				return true;
+		}
+		return false;
+	}
+
+	public final GameState calculateGameState(final int[] position){
+		int actualIndex = 1;
+		int hasZero = 0;
+		for(final int num : position){
+			if (num > 0){
+				if (num != actualIndex)
+					return GameState.IN_PROGRESS;
+				
+				actualIndex++;
+			}else{
+				hasZero++;
 			}
 		}
-		throw new InvalidMoveAtemtException(
-				MacroCompiler.compile("Invalid move atempt. Each configuration has to have exactly one zero field. Attemted had ${0} instead.", 
-						Arrays.asList(Integer.toString(0))));
+		if (hasZero != 1){
+			throw new InvalidMoveAtemtException(
+					MacroCompiler.compile("Invalid move atempt. Each configuration has to have exactly one zero field. Attemted had ${0} instead.", 
+							Arrays.asList(Integer.toString(hasZero))));
+		}
+		return GameState.ENDED;
 	}
 }

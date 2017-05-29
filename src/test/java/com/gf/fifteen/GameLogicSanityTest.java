@@ -10,13 +10,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.gf.fifteen.entities.dao.game.GameState;
 import com.gf.fifteen.exceptions.InvalidMoveAtemtException;
-import com.gf.fifteen.managers.utils.GameManagerUtil;
+import com.gf.fifteen.managers.GameManager;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class GameLogicSanityTest {
 	@Autowired
-	private GameManagerUtil logic;
+	private GameManager logic;
 	
 	@Test
 	public void gameStateLogicSanityTest() {
